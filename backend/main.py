@@ -7,6 +7,7 @@ import certifi
 from dotenv import load_dotenv
 import os
 
+
 # Vellum imports
 from vellum.client import Vellum
 import vellum.types as types
@@ -17,7 +18,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "https://legit-or-nah.web.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +34,9 @@ quiz_collection = db.quizzes
 # Initialize Vellum client once
 vellum_client = Vellum(api_key=VELLUM_API_KEY)
 
+@app.get("/")
+async def root():
+    return {"message": "API is running"}
 
 @app.get("/quiz/{index}")
 async def get_quiz_by_index(index: int):

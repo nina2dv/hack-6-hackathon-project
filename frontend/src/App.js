@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import ReactMarkdown from "react-markdown";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = process.env.REACT_APP_RENDER_URL;
 
 function QuizApp() {
   const [index, setIndex] = useState(0);
@@ -102,7 +103,14 @@ function QuizApp() {
             <p><strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}</p>
             <p><strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}</p>
             {/* <p><em>Reason:</em> {quiz.reason}</p> */}
-            <p><em>Explanation:</em> {llmLoading ? "Loading LLM output..." : llmOutput}</p>
+            <p><em>Explanation:</em></p>
+            <div className="llm-output">
+              {llmLoading ? (
+                "Loading LLM output..."
+              ) : (
+                <ReactMarkdown>{llmOutput}</ReactMarkdown>
+              )}
+            </div>
           </div>
           <button onClick={handleNext}>Next Question</button>
         </>
