@@ -77,16 +77,19 @@ function QuizApp() {
         </>
       ) : (
         <>
-          <p>
-            <strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}
-          </p>
-          <p>
-            <strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}
-          </p>
-          <p>
-            <em>Reason:</em> {quiz.reason}
-          </p>
-          <button onClick={handleNext}>Next Question</button>
+        <p>
+          <strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}
+        </p>
+        <p>
+          <strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}
+        </p>
+        <p>
+          <em>Reason:</em> {quiz.reason}
+        </p>
+        <p>
+          <em>LLM Output:</em> {quiz.llm_output}
+        </p>
+        <button onClick={handleNext}>Next Question</button>
         </>
       )}
     </div>
