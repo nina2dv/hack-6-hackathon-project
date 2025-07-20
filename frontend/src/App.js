@@ -9,10 +9,16 @@ function QuizApp() {
   const [score, setScore] = useState(0);
   const [error, setError] = useState(null);
 
+  const [llmOutput, setLlmOutput] = useState(null);
+  const [llmLoading, setLlmLoading] = useState(false);
+
   useEffect(() => {
     setUserAnswer(null);
     setError(null);
+    setQuiz(null);
+    setLlmOutput(null);
 
+    // Fetch quiz data first
     fetch(`${BASE_URL}/quiz/${index}`)
       .then((res) => {
         if (!res.ok) {
@@ -20,7 +26,27 @@ function QuizApp() {
         }
         return res.json();
       })
-      .then((data) => setQuiz(data))
+      .then((data) => {
+        setQuiz(data);
+
+        // After quiz is loaded, fetch LLM output separately
+        setLlmLoading(true);
+        fetch(`${BASE_URL}/quiz/${index}/llm`)
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Failed to load LLM output");
+            }
+            return res.json();
+          })
+          .then((llmData) => {
+            setLlmOutput(llmData.llm_output);
+            setLlmLoading(false);
+          })
+          .catch(() => {
+            setLlmOutput("Failed to load LLM output");
+            setLlmLoading(false);
+          });
+      })
       .catch((err) => setError(err.message));
   }, [index]);
 
@@ -56,7 +82,7 @@ function QuizApp() {
   }
 
   if (!quiz) {
-    return <div>Loading...</div>;
+    return <div>Loading question...</div>;
   }
 
   return (
@@ -77,19 +103,19 @@ function QuizApp() {
         </>
       ) : (
         <>
-        <p>
-          <strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}
-        </p>
-        <p>
-          <strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}
-        </p>
-        <p>
-          <em>Reason:</em> {quiz.reason}
-        </p>
-        <p>
-          <em>LLM Output:</em> {quiz.llm_output}
-        </p>
-        <button onClick={handleNext}>Next Question</button>
+          <p>
+            <strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}
+          </p>
+          <p>
+            <strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}
+          </p>
+          <p>
+            <em>Reason:</em> {quiz.reason}
+          </p>
+          <p>
+            <em>LLM Output:</em> {llmLoading ? "Loading LLM output..." : llmOutput}
+          </p>
+          <button onClick={handleNext}>Next Question</button>
         </>
       )}
     </div>
