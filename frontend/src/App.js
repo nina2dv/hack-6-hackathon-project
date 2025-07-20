@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./App.css";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
@@ -18,7 +19,6 @@ function QuizApp() {
     setQuiz(null);
     setLlmOutput(null);
 
-    // Fetch quiz data first
     fetch(`${BASE_URL}/quiz/${index}`)
       .then((res) => {
         if (!res.ok) {
@@ -28,8 +28,6 @@ function QuizApp() {
       })
       .then((data) => {
         setQuiz(data);
-
-        // After quiz is loaded, fetch LLM output separately
         setLlmLoading(true);
         fetch(`${BASE_URL}/quiz/${index}/llm`)
           .then((res) => {
@@ -52,7 +50,6 @@ function QuizApp() {
 
   const handleAnswer = (answer) => {
     setUserAnswer(answer);
-    // Map 'legit' to 'real'
     const normalizedUserAnswer = answer.toLowerCase() === "legit" ? "real" : answer.toLowerCase();
     const normalizedCorrectAnswer = quiz.answer.toLowerCase();
 
@@ -67,14 +64,12 @@ function QuizApp() {
 
   if (error) {
     return (
-      <div>
+      <div className="error-message">
         <h2>{error}</h2>
-        <button
-          onClick={() => {
-            setIndex(0);
-            setScore(0);
-          }}
-        >
+        <button onClick={() => {
+          setIndex(0);
+          setScore(0);
+        }}>
           Restart Quiz
         </button>
       </div>
@@ -82,39 +77,31 @@ function QuizApp() {
   }
 
   if (!quiz) {
-    return <div>Loading question...</div>;
+    return <div className="loading-text">Loading question...</div>;
   }
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", padding: "1rem" }}>
+    <div className="quiz-container">
       <h2>Question #{index + 1}</h2>
       <p>{quiz.question}</p>
 
-      <div style={{ marginBottom: "1rem" }}>
+      <div className="score-box">
         <strong>Score: {score}</strong>
       </div>
 
       {!userAnswer ? (
-        <>
-          <button onClick={() => handleAnswer("legit")} style={{ marginRight: "1rem" }}>
-            Legit
-          </button>
+        <div className="button-group">
+          <button onClick={() => handleAnswer("legit")}>Legit</button>
           <button onClick={() => handleAnswer("fake")}>Fake</button>
-        </>
+        </div>
       ) : (
         <>
-          <p>
-            <strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}
-          </p>
-          <p>
-            <strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}
-          </p>
-          <p>
-            <em>Reason:</em> {quiz.reason}
-          </p>
-          <p>
-            <em>LLM Output:</em> {llmLoading ? "Loading LLM output..." : llmOutput}
-          </p>
+          <div className="answer-summary">
+            <p><strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}</p>
+            <p><strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}</p>
+            <p><em>Reason:</em> {quiz.reason}</p>
+            <p><em>LLM Output:</em> {llmLoading ? "Loading LLM output..." : llmOutput}</p>
+          </div>
           <button onClick={handleNext}>Next Question</button>
         </>
       )}

@@ -1,38 +1,104 @@
-.App {
-  text-align: center;
+/* Container styling */
+.quiz-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: #f9fafb;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Question number */
+.quiz-container h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+  color: #222;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Question text */
+.quiz-container p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Score box */
+.score-box {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #0a74da;
+}
+
+/* Buttons */
+.button-group button,
+.quiz-container button {
+  background-color: #0a74da;
   color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 1rem;
+  box-shadow: 0 3px 8px rgba(10, 116, 218, 0.4);
+  user-select: none;
 }
 
-.App-link {
-  color: #61dafb;
+.button-group button:last-child {
+  margin-right: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button-group button:hover,
+.quiz-container button:hover {
+  background-color: #095ab6;
+}
+
+.button-group button:disabled {
+  background-color: #a3c0f9;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Answer summary */
+.answer-summary {
+  background-color: #e3f2fd;
+  border-left: 4px solid #0a74da;
+  padding: 1rem 1.2rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.answer-summary strong {
+  color: #0a74da;
+}
+
+.answer-summary em {
+  color: #555;
+}
+
+/* Error message */
+.error-message {
+  max-width: 400px;
+  margin: 3rem auto;
+  text-align: center;
+  color: #b00020;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.error-message button {
+  margin-top: 1rem;
+}
+
+/* Loading text */
+.loading-text {
+  font-style: italic;
+  color: #777;
+  margin-bottom: 1rem;
 }
