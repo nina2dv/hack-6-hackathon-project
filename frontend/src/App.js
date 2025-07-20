@@ -82,7 +82,9 @@ function QuizApp() {
 
   return (
     <div className="quiz-container">
-      <h2>Question #{index + 1}</h2>
+      <h1 className="app-title">Legit or Nah</h1> 
+
+      <h2>#{index + 1}</h2>
       <p>{quiz.question}</p>
 
       <div className="score-box">
@@ -99,8 +101,8 @@ function QuizApp() {
           <div className="answer-summary">
             <p><strong>Your Answer:</strong> {userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1)}</p>
             <p><strong>Correct Answer:</strong> {quiz.answer.charAt(0).toUpperCase() + quiz.answer.slice(1)}</p>
-            <p><em>Reason:</em> {quiz.reason}</p>
-            <p><em>LLM Output:</em> {llmLoading ? "Loading LLM output..." : llmOutput}</p>
+            {/* <p><em>Reason:</em> {quiz.reason}</p> */}
+            <p><em>Explanation:</em> {llmLoading ? "Loading LLM output..." : llmOutput}</p>
           </div>
           <button onClick={handleNext}>Next Question</button>
         </>
